@@ -92,6 +92,7 @@ function App() {
     let fileShare = {};
 
     socket.on("fs-meta", (metadata) => {
+      console.log(metadata);
       fileShare.metadata = metadata;
       fileShare.transmitted = 0;
       fileShare.buffer = [];

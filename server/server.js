@@ -3,7 +3,9 @@ const app = express();
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
-const fs = require("fs");
+
+//user defined functions
+const fx = require("./functions");
 
 app.use(cors());
 
@@ -17,6 +19,7 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
+  //HANDLING USER JOINING
   socket.on("join_room", (data) => {
     console.log(`User ${socket.id} Connected to room: ${data}`);
     socket.join(data);
@@ -28,21 +31,49 @@ io.on("connection", (socket) => {
     socket.to(message.room).emit("message", message.userInput);
   });
 
+  //Send successful file
+  const sendFile = (buffer, fileName, room) => {
+    const type = fx.checkFileFormat(fileShare.metadata.filename);
+    socket.broadcast.to(room).emit("receive-file", buffer, fileName, type);
+    socket.emit("receive-file", buffer, fileName, type);
+  };
+
+  // - HANDLING FILE UPLOADING - //
   socket.on("file-meta", function (data) {
-    socket.to(data.uid).emit("fs-meta", data.metadata);
-    console.log(data.metadata);
-  });
-  socket.on("fs-start", function (data) {
-    socket.to(data.uid).emit("fs-share", {});
-  });
-  socket.on("file-raw", function (data) {
-    socket.to(data.uid).emit("fsc-share", data.buffer);
+    fsmetaemit(data.metadata);
   });
 
-  // Set up event handler for disconnections
-  // socket.on("disconnect", () =>
-  //   console.log("A user disconnected");
-  // });
+  const fsstartemit = () => {
+    socket.emit("fs-share", {});
+  };
+
+  socket.on("file-raw", function (data) {
+    fscshareemit(data.buffer, data.room);
+  });
+
+  let fileShare = {};
+
+  const fsmetaemit = (metadata) => {
+    console.log(metadata);
+    fileShare.metadata = metadata;
+    fileShare.transmitted = 0;
+    fileShare.buffer = [];
+
+    fsstartemit();
+  };
+
+  const fscshareemit = async (buffer, room) => {
+    fileShare.buffer.push(buffer);
+    fileShare.transmitted += buffer.byteLength;
+    if (fileShare.transmitted === fileShare.metadata.total_buffer_size) {
+      console.log("Download file: ", fileShare);
+      sendFile(fileShare.buffer, fileShare.metadata.filename, room);
+      fileShare = {};
+    } else {
+      fsstartemit();
+    }
+  };
+  // - HANDLING FILE SHARING - //
 });
 
 server.listen(3001, () => {

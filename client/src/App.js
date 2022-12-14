@@ -37,7 +37,7 @@ function App() {
         {
           filename: file.name,
           total_buffer_size: buffer.length,
-          buffer_size: 1024,
+          buffer_size: 1024 * 16,
         },
         buffer
       );

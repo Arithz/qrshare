@@ -20,9 +20,20 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   //HANDLING USER JOINING
-  socket.on("join_room", (data) => {
-    console.log(`User ${socket.id} Connected to room: ${data}`);
-    socket.join(data);
+  socket.on("join_room", (room, user) => {
+    // console.log(`User ${socket.id} Connected to room: ${room}`);
+    if (user === "host") {
+      socket.join(room);
+      console.log(`User ${socket.id} created room: ${room}`);
+    } else {
+      console.log(socket.adapter.rooms);
+      if (room in socket.adapter.rooms) {
+        socket.join(room);
+        console.log(`User ${socket.id} Connected to room: ${room}`);
+      } else {
+        console.log("no room");
+      }
+    }
   });
 
   // Set up event handler for incoming messages

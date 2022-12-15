@@ -1,5 +1,5 @@
 import { QRCodeCanvas } from "qrcode.react";
-import { useEffect, useState } from "react";
+import { useEffect, useState,  } from "react";
 import { HiOutlineQrcode } from "react-icons/hi";
 import io from "socket.io-client";
 
@@ -24,7 +24,6 @@ const QR = ({ userState }) => {
       let roomID = generateRoom();
       document.querySelector("#roomcode").value = roomID;
       setRoom(roomID);
-      alert(room);
     } else {
       //join an existed room
       let roomID = document.querySelector("#roomcode").value;

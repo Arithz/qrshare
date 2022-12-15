@@ -26,8 +26,7 @@ io.on("connection", (socket) => {
       socket.join(room);
       console.log(`User ${socket.id} created room: ${room}`);
     } else {
-      console.log(socket.adapter.rooms);
-      if (room in socket.adapter.rooms) {
+      if (io.socket.adapter.rooms.get(room) > 0) {
         socket.join(room);
         console.log(`User ${socket.id} Connected to room: ${room}`);
       } else {

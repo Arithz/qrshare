@@ -1,8 +1,22 @@
 import "./style/App.css";
 import { useState } from "react";
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import QrCode from "./components/QR";
-
 import { AiOutlineSwap } from "react-icons/ai";
+
+import Home from "./pages/Home";
+import Chatroom from "./pages/Chatroom";
+
+function AppReplace() {
+  return (
+    <Router>
+      <Routes>
+        <Routes path ="/" element = {<Home/>}/>
+        <Routes path ="/Chatroom" element = {<Chatroom/>}/>
+      </Routes>
+    </Router>
+  );
+}
 
 function App() {
   //state lists

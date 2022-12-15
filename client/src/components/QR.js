@@ -1,5 +1,6 @@
 import { QRCodeCanvas } from "qrcode.react";
-import { useEffect, useState,  } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { HiOutlineQrcode } from "react-icons/hi";
 import io from "socket.io-client";
 
@@ -11,44 +12,44 @@ function generateRoom() {
 
 const QR = ({ userState }) => {
   const socket = io("http://localhost:3001");
+  const navigate = useNavigate();
 
-  const [room, setRoom] = useState();
+  const [room, setRoom] = useState("");
 
-  const handleJoinRoom = () => {
-    socket.emit("join_room", room, userState);
+  const createRoom = (roomID) => {
+    socket.emit("create_room", roomID);
   };
 
-  const qrCodeEncoder = (event) => {
+  const qrCodeEncoder = async (event) => {
     if (event.target.innerText === "Generate") {
       //generate a room
       let roomID = generateRoom();
       document.querySelector("#roomcode").value = roomID;
       setRoom(roomID);
+      createRoom(roomID);
     } else {
       //join an existed room
       let roomID = document.querySelector("#roomcode").value;
       setRoom(roomID);
+      socket.emit("join_room", roomID);
     }
-    handleJoinRoom(room);
   };
 
   useEffect(() => {
-    // socket.on("init", (room) => {
-    //   setUserToRoom(room);
-    // });
-    // socket.on("return", () => {
-    //   console.log(window.location.url.substring(4));
-    // });
+    socket.on("Error", (error) => {
+      alert(error);
+    });
+
+    socket.on("redirect_chatroom", (room) => {
+      console.log("redirecting");
+      navigate(`/Chatroom/${room}`);
+    });
   }, [socket]);
-
-  //   useEffect(() => {
-
-  //   }, [room]);
 
   const qrcode = (
     <QRCodeCanvas
       id="qrCode"
-      value={window.location.href + "?room=" + room}
+      value={"10.212.227.158:3000/Chatroom/" + room}
       size={250}
       level={"H"}
     />
@@ -66,6 +67,7 @@ const QR = ({ userState }) => {
           readOnly={userState === "host" ? true : false}
         />
         <button onClick={qrCodeEncoder}>{userState === "host" ? "Generate" : "Join"}</button>
+        10.212.227.158:3000/Chatroom/{room}
       </div>
     </div>
   );

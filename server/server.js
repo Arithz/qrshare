@@ -19,24 +19,38 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  //HANDLING USER JOINING
-  socket.on("join_room", (room, user) => {
-    // console.log(`User ${socket.id} Connected to room: ${room}`);
-    if (user === "host") {
+  socket.on("create_room", (room) => {
+    socket.join(room);
+    console.log(`User ${socket.id} created room: ${room}`);
+  });
+
+  const checkRoom = (room) => {
+    return io.sockets.adapter.rooms.has(room) === true ? true : false;
+  };
+
+  socket.on("join_room", (room) => {
+    if (checkRoom(room) === true) {
       socket.join(room);
-      console.log(`User ${socket.id} created room: ${room}`);
+      console.log(`User ${socket.id} joined room: ${room}`);
+      io.sockets.emit("redirect_chatroom", room);
     } else {
-      if (io.socket.adapter.rooms.get(room) > 0) {
-        socket.join(room);
-        console.log(`User ${socket.id} Connected to room: ${room}`);
-      } else {
-        console.log("no room");
-      }
+      socket.emit("Error", "Room does not exists");
+    }
+  });
+
+  socket.on("check_room", (room) => {
+    if (checkRoom(room) === true) {
+      socket.join(room);
+      io.sockets.emit("redirect_chatroom", room);
+      socket.emit("start_room", true);
+    } else {
+      socket.emit("start_room", false);
     }
   });
 
   // Set up event handler for incoming messages
   socket.on("message", (message) => {
+    console.log(message);
     // Send message to all connected clients
     socket.to(message.room).emit("message", message.userInput);
   });

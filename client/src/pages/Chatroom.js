@@ -11,7 +11,7 @@ function Chatroom() {
   //essentials
   const { room } = useParams();
   const navigate = useNavigate();
-  const socket = io("https://qrshare.adaptable.app/:3001");
+  const socket = io("https://qrshare.adaptable.app:3001");
 
   //states
   const [messages, setMessages] = useState([]);

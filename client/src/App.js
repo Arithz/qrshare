@@ -1,8 +1,7 @@
-import "./style/App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 import Home from "./pages/Home";
 import Chatroom from "./pages/Chatroom";
+import "./style/App.css";
 
 function App() {
   return (

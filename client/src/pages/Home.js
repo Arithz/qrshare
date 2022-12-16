@@ -19,12 +19,14 @@ function Home() {
       <QrCode userState={userState} />
 
       <div id="changejoiner">
-        <p onClick={() => changeUserState()}>
+        <p onClick={() => changeUserState()} style={cursorpointer}>
           <AiOutlineSwap id="swapbutton" />{" "}
         </p>
-        <p onClick={() => changeUserState()}>
-          Change to {userState === "host" ? "joiner" : "host"}
-        </p>
+        <u>
+          <p onClick={() => changeUserState()} style={cursorpointer}>
+            Change to {userState === "host" ? "joiner" : "host"}
+          </p>
+        </u>
       </div>
 
       <div>
@@ -35,3 +37,13 @@ function Home() {
 }
 
 export default Home;
+
+const swapbuttonstyle = {
+  color: "#38a283",
+  width: "50px",
+  height: "50px",
+};
+
+const cursorpointer = {
+  cursor: "pointer",
+};

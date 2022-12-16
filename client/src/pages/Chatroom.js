@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import io from "socket.io-client";
+import Navbar from "../components/Navbar";
+import "../style/Navbar.css";
+import "../style/Chatroom.css";
 
 function Chatroom() {
   //essentials
@@ -15,17 +18,17 @@ function Chatroom() {
 
   /* ON LOAD REQUIREMENTS */
   /* --------------------------------------------------------------------------- */
-  const startup = () => {
-    return room !== undefined ? true : false;
-  };
+  // const startup = () => {
+  //   return room !== undefined ? true : false;
+  // };
 
-  useEffect(() => {
-    if (!startup()) {
-      navigate("/");
-    } else {
-      socket.emit("check_room", room);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!startup()) {
+  //     navigate("/");
+  //   } else {
+  //     socket.emit("check_room", room);
+  //   }
+  // }, []);
 
   /* --------------------------------------------------------------------------- */
 
@@ -81,11 +84,11 @@ function Chatroom() {
   /* --------------------------------------------------------------------------- */
   // Set up useEffect hook to handle incoming messages
   useEffect(() => {
-    socket.on("start_room", (start) => {
-      if (start === false || start === null) {
-        navigate("/");
-      }
-    });
+    // socket.on("start_room", (start) => {
+    //   if (start === false || start === null) {
+    //     navigate("/");
+    //   }
+    // });
 
     socket.on("message", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
@@ -101,33 +104,57 @@ function Chatroom() {
 
   return (
     <div>
-      <p>Room: {room}</p>
-      <div>
-        <input value={userInput} onChange={(event) => setUserInput(event.target.value)} />
-        <button onClick={handleSendMessage}>Send</button>
+      <Navbar room={room} />
+
+      <div id="container">
+        <div id="chatcontainer">
+          <div id="messagecontainer">
+            {messages.map((message) => (
+              <div>{message}</div>
+            ))}
+            <div id="picture">
+              <span>B</span>
+            </div>
+            <div id="message">
+              <div id="meta">
+                <p id="username">Jia</p>
+                <p id="time">10:27 pm</p>
+              </div>
+              <div id="messagebody">
+                <p>Aku harini lupa ada kelas</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        "
       </div>
-
-      <input type="file" onChange={handleFileInput} />
-
-      {messages.map((message) => (
-        <div>{message}</div>
-      ))}
-
-      {/* {fileDownloadLink.type === "image" ? (
-        <img
-          alt="imagecanvas"
-          src={fileDownloadLink.link}
-          download={fileDownloadLink.fileName}
-          width="200px"
-        ></img>
-      ) : (
-        <a href={fileDownloadLink.link} download={fileDownloadLink.fileName}>
-          {fileDownloadLink.fileName}
-        </a>
-      )} */}
+      <div id="inputcontainer">
+        <div id="input">
+          <input
+            value={userInput}
+            onChange={(event) => setUserInput(event.target.value)}
+            placeholder="Enter message..."
+          />
+          <input type="file" onChange={handleFileInput} />
+          <button onClick={handleSendMessage}>Send</button>
+        </div>
+      </div>
     </div>
   );
 }
+
+/* {fileDownloadLink.type === "image" ? (
+  <img
+    alt="imagecanvas"
+    src={fileDownloadLink.link}
+    download={fileDownloadLink.fileName}
+    width="200px"
+  ></img>
+) : (
+  <a href={fileDownloadLink.link} download={fileDownloadLink.fileName}>
+    {fileDownloadLink.fileName}
+  </a>
+)} */
 
 // function App() {
 //   // Create Socket.io connection

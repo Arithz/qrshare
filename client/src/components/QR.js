@@ -67,7 +67,6 @@ const QR = ({ userState }) => {
           readOnly={userState === "host" ? true : false}
         />
         <button onClick={qrCodeEncoder}>{userState === "host" ? "Generate" : "Join"}</button>
-        10.212.227.158:3000/Chatroom/{room}
       </div>
     </div>
   );

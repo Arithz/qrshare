@@ -1,18 +1,16 @@
-body {
-  display: flex;
-  background: #070707;
-  color: white;
-  justify-content: center;
-  text-align: center;
-}
+:root {
+  /* background color */
+  --bg-black-color: #141414;
+  --bg-blackvariant-color: #313131;
+  /*text color*/
+  --t-white-color: #ffffff;
+  --t-gray-color: #818181;
+  /* primary color */
+  --primary-purple-color: #4e38a2;
+  /* accent color */
+  --accent-green-color: #38a283;
+  --accent-red-color: #df5959;
 
-#changejoiner #swapbutton {
-  color: #38a283;
-  width: 50px;
-  height: 50px;
-}
-
-#changejoiner p {
-  text-decoration: underline;
-  cursor: pointer;
+  /* font size */
+  --f-computer-normal: 15px;
 }

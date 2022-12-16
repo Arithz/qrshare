@@ -1,0 +1,54 @@
+#container {
+  padding: 10px 15px;
+  background: gray;
+}
+#messagecontainer {
+  background: blue;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+#messagecontainer #picture {
+  display: block;
+  background: purple;
+  padding: 5px 10px;
+  border-radius: 2px;
+}
+#messagecontainer #meta {
+  background: pink;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 0.8em;
+}
+
+#messagecontainer #meta #time {
+  color: #3f3f3f;
+  font-size: 0.5em;
+}
+#messagecontainer #meta p {
+  margin: 0;
+}
+#messagecontainer #messagebody {
+  font-size: 0.8em;
+}
+#messagecontainer #messagebody p {
+  margin: 0;
+}
+
+#inputcontainer {
+  display: block;
+  background: orange;
+  position: fixed;
+  z-index: 999;
+  bottom: 0;
+  padding: 10px 15px;
+}
+
+#inputcontainer #input {
+  background: black;
+}
+#inputcontainer #input input[type="text"] {
+  border: none;
+}

@@ -47,12 +47,7 @@ const QR = ({ userState }) => {
   }, [socket]);
 
   const qrcode = (
-    <QRCodeCanvas
-      id="qrCode"
-      value={"10.212.227.158:3000/Chatroom/" + room}
-      size={250}
-      level={"H"}
-    />
+    <QRCodeCanvas id="qrCode" value={"0.0.0.0:3000/Chatroom/" + room} size={250} level={"H"} />
   );
 
   return (

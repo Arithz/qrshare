@@ -11,7 +11,7 @@ function Chatroom() {
   //essentials
   const { room } = useParams();
   const navigate = useNavigate();
-  const socket = io("http://localhost:3001");
+  const socket = io("http://0.0.0.0:3001");
 
   //states
   const [messages, setMessages] = useState([]);

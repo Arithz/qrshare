@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Inter");
+
 :root {
   /* background color */
   --bg-black-color: #141414;
@@ -6,11 +8,20 @@
   --t-white-color: #ffffff;
   --t-gray-color: #818181;
   /* primary color */
-  --primary-purple-color: #4e38a2;
+  --p-purple-color: #4e38a2;
+  --p-purplevariant-color: #c4b5ff;
   /* accent color */
-  --accent-green-color: #38a283;
-  --accent-red-color: #df5959;
+  --a-green-color: #38a283;
+  --a-red-color: #df5959;
 
   /* font size */
-  --f-computer-normal: 15px;
+  --f-comp-title: 18px;
+  --f-comp-body: 15px;
+  --f-comp-extra: 12px;
+
+  --f-phone-title: ;
+}
+
+html {
+  font-family: Inter;
 }

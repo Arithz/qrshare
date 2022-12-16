@@ -19,7 +19,7 @@ function Home() {
       <QrCode userState={userState} />
 
       <div id="changejoiner">
-        <p onClick={() => changeUserState()} style={cursorpointer}>
+        <p onClick={() => changeUserState()} style={swapbuttonstyle}>
           <AiOutlineSwap id="swapbutton" />{" "}
         </p>
         <u>
@@ -42,6 +42,7 @@ const swapbuttonstyle = {
   color: "#38a283",
   width: "50px",
   height: "50px",
+  cursor: "pointer",
 };
 
 const cursorpointer = {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { HiPaperAirplane } from "react-icons/hi";
 import io from "socket.io-client";
 import Navbar from "../components/Navbar";
 import "../style/Navbar.css";
@@ -18,17 +19,17 @@ function Chatroom() {
 
   /* ON LOAD REQUIREMENTS */
   /* --------------------------------------------------------------------------- */
-  // const startup = () => {
-  //   return room !== undefined ? true : false;
-  // };
+  const startup = () => {
+    return room !== undefined ? true : false;
+  };
 
-  // useEffect(() => {
-  //   if (!startup()) {
-  //     navigate("/");
-  //   } else {
-  //     socket.emit("check_room", room);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!startup()) {
+      navigate("/");
+    } else {
+      socket.emit("check_room", room);
+    }
+  }, []);
 
   /* --------------------------------------------------------------------------- */
 
@@ -46,7 +47,7 @@ function Chatroom() {
       return;
     }
     let reader = new FileReader();
-    reader.onload = function (e) {
+    reader.onload = function () {
       let buffer = new Uint8Array(reader.result);
       shareFile(
         {
@@ -84,11 +85,11 @@ function Chatroom() {
   /* --------------------------------------------------------------------------- */
   // Set up useEffect hook to handle incoming messages
   useEffect(() => {
-    // socket.on("start_room", (start) => {
-    //   if (start === false || start === null) {
-    //     navigate("/");
-    //   }
-    // });
+    socket.on("start_room", (start) => {
+      if (start === false || start === null) {
+        navigate("/");
+      }
+    });
 
     socket.on("message", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
@@ -108,53 +109,81 @@ function Chatroom() {
 
       <div id="container">
         <div id="chatcontainer">
-          <div id="messagecontainer">
-            {messages.map((message) => (
-              <div>{message}</div>
-            ))}
+          {messages.map((message) => (
+            <div>
+              <div id="messagecontainer">
+                <div id="picture">
+                  <span>B</span>
+                </div>
+                <div id="message">
+                  <div id="meta">
+                    <p id="username">/ Username not yet implemented /</p>
+                    <p id="time">/ Time not yet implemented /</p>
+                  </div>
+                  <div id="messagebody">
+                    <p>{message}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {fileDownloadLink.type === "image" ? (
+            <img
+              alt="imagecanvas"
+              src={fileDownloadLink.link}
+              download={fileDownloadLink.fileName}
+              width="200px"
+            ></img>
+          ) : (
+            <a href={fileDownloadLink.link} download={fileDownloadLink.fileName}>
+              {fileDownloadLink.fileName}
+            </a>
+          )}
+
+          {/* <div id="messagecontainer">
             <div id="picture">
               <span>B</span>
             </div>
             <div id="message">
               <div id="meta">
                 <p id="username">Jia</p>
-                <p id="time">10:27 pm</p>
+                <p id="time">Yesterday at 10:27 pm</p>
               </div>
               <div id="messagebody">
-                <p>Aku harini lupa ada kelas</p>
+                <p>
+                  Aku harini lupa ada kelas sebab lorem ipsum is just a generator for a text
+                  paragraph and people has been using it as a placeholder for web development.
+                  Sometimes I feel like im stuck in an infinite loop like nahida using her skill to
+                  me
+                </p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
-        "
       </div>
       <div id="inputcontainer">
-        <div id="input">
-          <input
-            value={userInput}
-            onChange={(event) => setUserInput(event.target.value)}
-            placeholder="Enter message..."
-          />
-          <input type="file" onChange={handleFileInput} />
-          <button onClick={handleSendMessage}>Send</button>
+        <div id="in">
+          <div id="input">
+            <input
+              type="text"
+              value={userInput}
+              onChange={(event) => setUserInput(event.target.value)}
+              placeholder="Message here..."
+            />
+            <label htmlFor="file-upload" id="custom-file-upload">
+              +
+            </label>
+            <input id="file-upload" type="file" onChange={handleFileInput} />
+          </div>
+          <button onClick={handleSendMessage}>
+            <HiPaperAirplane id="sendicon" />
+          </button>
         </div>
       </div>
     </div>
   );
 }
-
-/* {fileDownloadLink.type === "image" ? (
-  <img
-    alt="imagecanvas"
-    src={fileDownloadLink.link}
-    download={fileDownloadLink.fileName}
-    width="200px"
-  ></img>
-) : (
-  <a href={fileDownloadLink.link} download={fileDownloadLink.fileName}>
-    {fileDownloadLink.fileName}
-  </a>
-)} */
 
 // function App() {
 //   // Create Socket.io connection

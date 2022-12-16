@@ -11,8 +11,9 @@ function generateRoom() {
 }
 
 const QR = ({ userState }) => {
-  const socket = io("http://localhost:3001");
+  const socket = io("https://qrshare.adaptable.app/:3001");
   const navigate = useNavigate();
+  const windowlocation = window.location.href;
 
   const [room, setRoom] = useState("");
 
@@ -47,7 +48,7 @@ const QR = ({ userState }) => {
   }, [socket]);
 
   const qrcode = (
-    <QRCodeCanvas id="qrCode" value={"localhost:3000/Chatroom/" + room} size={250} level={"H"} />
+    <QRCodeCanvas id="qrCode" value={windowlocation + "/Chatroom/" + room} size={250} level={"H"} />
   );
 
   return (

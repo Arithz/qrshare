@@ -103,6 +103,10 @@ io.on("connection", (socket) => {
   // - HANDLING FILE SHARING - //
 });
 
+server.all("/", (req, res) => {
+  res.send("QRShare socket is running!");
+});
+
 server.listen(PORT, () => {
   console.log("SERVER IS RUNNING AT " + PORT);
 });

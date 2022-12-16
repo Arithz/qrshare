@@ -3,6 +3,9 @@ const app = express();
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
+require("dotenv").config();
+const PORT = process.env.PORT || 5000;
+const HOST = process.env.HOST || "http://localhost";
 
 //user defined functions
 const fx = require("./functions");
@@ -13,7 +16,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://0.0.0.0:3000",
+    origin: HOST + ":" + PORT,
     methods: ["GET", "POST"],
   },
 });
@@ -100,6 +103,6 @@ io.on("connection", (socket) => {
   // - HANDLING FILE SHARING - //
 });
 
-server.listen(3001, () => {
-  console.log("SERVER IS RUNNING");
+server.listen(PORT, () => {
+  console.log("SERVER IS RUNNING AT " + PORT);
 });

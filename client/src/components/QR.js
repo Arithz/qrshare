@@ -11,7 +11,7 @@ function generateRoom() {
 }
 
 const QR = ({ userState }) => {
-  const socket = io("http://0.0.0.0:3001");
+  const socket = io("http://localhost:3001");
   const navigate = useNavigate();
 
   const [room, setRoom] = useState("");
@@ -47,7 +47,7 @@ const QR = ({ userState }) => {
   }, [socket]);
 
   const qrcode = (
-    <QRCodeCanvas id="qrCode" value={"0.0.0.0:3000/Chatroom/" + room} size={250} level={"H"} />
+    <QRCodeCanvas id="qrCode" value={"localhost:3000/Chatroom/" + room} size={250} level={"H"} />
   );
 
   return (

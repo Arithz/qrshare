@@ -12,15 +12,15 @@ function Home() {
   };
 
   return (
-    <div>
+    <div id="bodyHome">
       <h1>QR Share</h1>
       <p>Airdrop alternative that is even easier</p>
 
       <QrCode userState={userState} />
 
       <div id="changejoiner">
-        <p onClick={() => changeUserState()} style={swapbuttonstyle}>
-          <AiOutlineSwap id="swapbutton" />{" "}
+        <p onClick={() => changeUserState()}>
+          <AiOutlineSwap size="50px" style={swapbuttonstyle} id="swapbutton" />{" "}
         </p>
         <u>
           <p onClick={() => changeUserState()} style={cursorpointer}>
@@ -40,8 +40,6 @@ export default Home;
 
 const swapbuttonstyle = {
   color: "#38a283",
-  width: "50px",
-  height: "50px",
   cursor: "pointer",
 };
 

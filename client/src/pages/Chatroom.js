@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { HiPaperAirplane } from "react-icons/hi";
+import { HiOutlineDownload } from "react-icons/hi";
 import io from "socket.io-client";
 import Navbar from "../components/Navbar";
 import "../style/Navbar.css";
@@ -128,17 +129,40 @@ function Chatroom() {
             </div>
           ))}
 
-          {fileDownloadLink.type === "image" ? (
-            <img
-              alt="imagecanvas"
-              src={fileDownloadLink.link}
-              download={fileDownloadLink.fileName}
-              width="200px"
-            ></img>
+          {fileDownloadLink.fileName !== undefined ? (
+            fileDownloadLink.type === "image" ? (
+              <div id="messagecontainer">
+                <div id="picture">
+                  <span>B</span>
+                </div>
+                <div id="message">
+                  <div id="meta">
+                    <p id="username">/ Username not yet implemented /</p>
+                    <p id="time">/ Time not yet implemented /</p>
+                  </div>
+                  <div id="messagebody">
+                    <img
+                      alt="imageCanvas"
+                      width="250px"
+                      src={fileDownloadLink.link}
+                      download={fileDownloadLink.fileName}
+                    ></img>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div id="messagecontainer" className="center">
+                <p>Brad sent </p>
+                <div id="filebody">
+                  <p>{fileDownloadLink.fileName}</p>
+                  <a href={fileDownloadLink.link} download={fileDownloadLink.fileName}>
+                    <HiOutlineDownload />
+                  </a>
+                </div>
+              </div>
+            )
           ) : (
-            <a href={fileDownloadLink.link} download={fileDownloadLink.fileName}>
-              {fileDownloadLink.fileName}
-            </a>
+            ""
           )}
 
           {/* <div id="messagecontainer">

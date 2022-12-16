@@ -49,6 +49,30 @@
   margin: 0;
 }
 
+.center {
+  justify-content: center;
+}
+
+#messagecontainer #filebody {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid var(--bg-blackvariant-color);
+  padding: 0px 20px;
+  border-radius: 5px;
+}
+#messagecontainer #filebody:hover {
+  background: var(--p-purple-color);
+}
+#messagecontainer #filebody a {
+  float: right;
+  color: var(--a-green-color);
+  font-size: 25px;
+}
+#messagecontainer #filebody a:hover {
+  color: rgb(107, 252, 107);
+}
+
 #inputcontainer {
   position: fixed;
   z-index: 999;

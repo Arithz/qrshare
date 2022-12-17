@@ -16,7 +16,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: HOST + ":" + PORT,
+    origin: "https://qr-share.netlify.app" + ":" + PORT,
     methods: ["GET", "POST"],
   },
 });

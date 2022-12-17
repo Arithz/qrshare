@@ -11,7 +11,7 @@ function generateRoom() {
 }
 
 const QR = ({ userState }) => {
-  const socket = io("https://qrshare.adaptable.app:80");
+  const socket = io("https://qrshare.adaptable.app");
   const navigate = useNavigate();
   const windowlocation = window.location.href;
 

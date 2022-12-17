@@ -105,6 +105,9 @@ io.on("connection", (socket) => {
 
 app.get("/", function (req, res) {
   res.send("QRShare socket is running");
+  res.setHeader('Access-Control-Allow-Origin','*');
+  res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE');
+  res.setHeader('Access-Control-Allow-Methods','Content-Type','Authorization');  
 });
 
 server.listen(PORT, () => {

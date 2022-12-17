@@ -16,7 +16,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost" + ":" + PORT,
+    origin: "http://qrshare.adaptable.app" + ":" + PORT,
     methods: ["GET", "POST"],
   },
 });

@@ -1,4 +1,4 @@
-import { QRCodeCanvas } from "qrcode.react";
+import QRCode from "qrcode";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineQrcode } from "react-icons/hi";
@@ -15,6 +15,7 @@ const QR = ({ userState }) => {
   const windowlocation = window.location.href;
 
   const [room, setRoom] = useState("");
+  const [url, setURL] = useState("");
 
   const createRoom = (roomID) => {
     socket.emit("create_room", roomID);
@@ -25,8 +26,10 @@ const QR = ({ userState }) => {
       //generate a room
       let roomID = generateRoom();
       document.querySelector("#roomcode").value = roomID;
+      qrcode(roomID);
       setRoom(roomID);
       createRoom(roomID);
+      console.log(url);
     } else {
       //join an existed room
       let roomID = document.querySelector("#roomcode").value;
@@ -46,13 +49,21 @@ const QR = ({ userState }) => {
     });
   }, [socket]);
 
-  const qrcode = (
-    <QRCodeCanvas id="qrCode" value={windowlocation + "Chatroom/" + room} size={250} level={"H"} />
-  );
+  const qrcode = (roomID) => {
+    QRCode.toDataURL(windowlocation + "Chatroom/" + roomID, function (err, ur) {
+      setURL(ur);
+    });
+  };
 
   return (
     <div className="qrcode__container">
-      <div style={qrcontainer}>{room === "" ? <HiOutlineQrcode style={hiqrcode} /> : qrcode}</div>
+      <div style={qrcontainer}>
+        {room === "" ? (
+          <HiOutlineQrcode style={hiqrcode} />
+        ) : (
+          <img width="300px" alt="qr" src={url} />
+        )}
+      </div>
       <div className="input__group">
         <input
           id="roomcode"

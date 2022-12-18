@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { HiPaperAirplane } from "react-icons/hi";
 import { HiOutlineDownload } from "react-icons/hi";
-import io from "socket.io-client";
+import socket from "../sockethost";
 import Navbar from "../components/Navbar";
+import LoadingComponent from "../components/Loading";
 import "../style/Navbar.css";
 import "../style/Chatroom.css";
 
@@ -11,12 +12,12 @@ function Chatroom() {
   //essentials
   const { room } = useParams();
   const navigate = useNavigate();
-  const socket = io("https://qrshare.adaptable.app");
 
   //states
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [fileDownloadLink, setFileDownloadLink] = useState({});
+  const [loading, setLoading] = useState(true);
 
   /* ON LOAD REQUIREMENTS */
   /* --------------------------------------------------------------------------- */
@@ -37,6 +38,7 @@ function Chatroom() {
   // Function to handle sending messages
   const handleSendMessage = () => {
     socket.emit("message", { userInput, room });
+    console.log("sedning message:" + userInput);
     setUserInput("");
   };
 
@@ -89,10 +91,13 @@ function Chatroom() {
     socket.on("start_room", (start) => {
       if (start === false || start === null) {
         navigate("/");
+      } else {
+        setLoading(false);
       }
     });
 
     socket.on("message", (message) => {
+      console.log("getting message: " + message);
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
@@ -104,6 +109,7 @@ function Chatroom() {
   }, [socket]);
   /* --------------------------------------------------------------------------- */
 
+  if (loading) return <LoadingComponent />;
   return (
     <div>
       <Navbar room={room} />
@@ -111,7 +117,7 @@ function Chatroom() {
       <div id="container">
         <div id="chatcontainer">
           {messages.map((message) => (
-            <div>
+            <div key={message}>
               <div id="messagecontainer">
                 <div id="picture">
                   <span>B</span>
@@ -131,7 +137,7 @@ function Chatroom() {
 
           {fileDownloadLink.fileName !== undefined ? (
             fileDownloadLink.type === "image" ? (
-              <div id="messagecontainer">
+              <div key={fileDownloadLink.fileName} id="messagecontainer">
                 <div id="picture">
                   <span>B</span>
                 </div>
@@ -151,11 +157,15 @@ function Chatroom() {
                 </div>
               </div>
             ) : (
-              <div id="messagecontainer" className="center">
+              <div id="messagecontainer" className="center" key={fileDownloadLink.fileName}>
                 <p>Brad sent </p>
                 <div id="filebody">
-                  <p>{fileDownloadLink.fileName}</p>
-                  <a href={fileDownloadLink.link} download={fileDownloadLink.fileName}>
+                  <p key={fileDownloadLink.fileName}>{fileDownloadLink.fileName}</p>
+                  <a
+                    key={fileDownloadLink.fileName}
+                    href={fileDownloadLink.link}
+                    download={fileDownloadLink.fileName}
+                  >
                     <HiOutlineDownload />
                   </a>
                 </div>
@@ -164,26 +174,6 @@ function Chatroom() {
           ) : (
             ""
           )}
-
-          {/* <div id="messagecontainer">
-            <div id="picture">
-              <span>B</span>
-            </div>
-            <div id="message">
-              <div id="meta">
-                <p id="username">Jia</p>
-                <p id="time">Yesterday at 10:27 pm</p>
-              </div>
-              <div id="messagebody">
-                <p>
-                  Aku harini lupa ada kelas sebab lorem ipsum is just a generator for a text
-                  paragraph and people has been using it as a placeholder for web development.
-                  Sometimes I feel like im stuck in an infinite loop like nahida using her skill to
-                  me
-                </p>
-              </div>
-            </div>
-          </div> */}
         </div>
       </div>
       <div id="inputcontainer">
@@ -210,3 +200,23 @@ function Chatroom() {
 }
 
 export default Chatroom;
+
+/* <div id="messagecontainer">
+            <div id="picture">
+              <span>B</span>
+            </div>
+            <div id="message">
+              <div id="meta">
+                <p id="username">Jia</p>
+                <p id="time">Yesterday at 10:27 pm</p>
+              </div>
+              <div id="messagebody">
+                <p>
+                  Aku harini lupa ada kelas sebab lorem ipsum is just a generator for a text
+                  paragraph and people has been using it as a placeholder for web development.
+                  Sometimes I feel like im stuck in an infinite loop like nahida using her skill to
+                  me
+                </p>
+              </div>
+            </div>
+          </div> */

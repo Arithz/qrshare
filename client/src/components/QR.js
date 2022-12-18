@@ -2,7 +2,7 @@ import { QRCodeCanvas } from "qrcode.react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineQrcode } from "react-icons/hi";
-import io from "socket.io-client";
+import socket from "../sockethost";
 
 function generateRoom() {
   return `${Math.trunc(Math.random() * 999)}-${Math.trunc(Math.random() * 999)}-${Math.trunc(
@@ -11,7 +11,6 @@ function generateRoom() {
 }
 
 const QR = ({ userState }) => {
-  const socket = io("https://qrshare.adaptable.app");
   const navigate = useNavigate();
   const windowlocation = window.location.href;
 

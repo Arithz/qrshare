@@ -4,8 +4,9 @@ const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 require("dotenv").config();
+
 const PORT = process.env.PORT || 5000;
-const HOST = process.env.HOST || "http://localhost";
+const HOST = process.env.production === "local" ? "http://localhost:3000" : process.env.HOST;
 
 //user defined functions
 const fx = require("./functions");
@@ -16,7 +17,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: HOST,
     methods: ["GET", "POST"],
   },
 });
@@ -54,6 +55,7 @@ io.on("connection", (socket) => {
   // Set up event handler for incoming messages
   socket.on("message", (message) => {
     console.log(message);
+    console.log(io.sockets.room);
     // Send message to all connected clients
     socket.to(message.room).emit("message", message.userInput);
   });
@@ -108,5 +110,6 @@ app.get("/", function (req, res) {
 });
 
 server.listen(PORT, () => {
+  console.log("HOST: " + HOST);
   console.log("SERVER IS RUNNING AT " + PORT);
 });

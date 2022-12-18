@@ -54,10 +54,8 @@ io.on("connection", (socket) => {
 
   // Set up event handler for incoming messages
   socket.on("message", (message) => {
-    console.log(message);
-    console.log(io.sockets.room);
     // Send message to all connected clients
-    socket.to(message.room).emit("message", message.userInput);
+    io.to(message.room).emit("message", message.userInput);
   });
 
   //Send successful file

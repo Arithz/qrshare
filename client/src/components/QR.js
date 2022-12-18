@@ -47,7 +47,7 @@ const QR = ({ userState }) => {
   }, [socket]);
 
   const qrcode = (
-    <QRCodeCanvas id="qrCode" value={windowlocation + "/Chatroom/" + room} size={250} level={"H"} />
+    <QRCodeCanvas id="qrCode" value={windowlocation + "Chatroom/" + room} size={250} level={"H"} />
   );
 
   return (

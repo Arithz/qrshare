@@ -52,10 +52,19 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("disconnect", () => {
+    console.log("user " + socket.id + " has disconnected");
+  });
+
   // Set up event handler for incoming messages
   socket.on("message", (message) => {
     // Send message to all connected clients
-    io.to(message.room).emit("message", message.userInput);
+    const userInput = message.userInput;
+    const time =
+      new Date().toLocaleDateString() +
+      " " +
+      new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    io.to(message.room).emit("message", { userInput, time });
   });
 
   //Send successful file

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { HiPaperAirplane } from "react-icons/hi";
 import { HiOutlineDownload } from "react-icons/hi";
@@ -10,6 +10,7 @@ import "../style/Chatroom.css";
 
 function Chatroom() {
   //essentials
+  const dummy = useRef();
   const { room } = useParams();
   const navigate = useNavigate();
 
@@ -37,8 +38,9 @@ function Chatroom() {
 
   // Function to handle sending messages
   const handleSendMessage = () => {
+    if (userInput === "") return;
     socket.emit("message", { userInput, room });
-    console.log("sedning message:" + userInput);
+    console.log("sending message:" + userInput);
     setUserInput("");
   };
 
@@ -84,6 +86,22 @@ function Chatroom() {
   }
   /* --------------------------------------------------------------------------- */
 
+  // USER DEFINED FUNCTIONS
+
+  //keypress handler
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      // 👇️ your logic here
+      handleSendMessage();
+      return;
+    }
+  };
+
+  const goScroll = () => {
+    let scroll_to_bottom = document.getElementById("container");
+    scroll_to_bottom.scrollTop = scroll_to_bottom.scrollHeight + 80;
+  };
+
   /* SOCKET EMISSION */
   /* --------------------------------------------------------------------------- */
   // Set up useEffect hook to handle incoming messages
@@ -97,8 +115,9 @@ function Chatroom() {
     });
 
     socket.on("message", (message) => {
-      console.log("getting message: " + message);
+      console.log("getting message: " + message.userInput);
       setMessages((prevMessages) => [...prevMessages, message]);
+      setTimeout(goScroll, 100);
     });
 
     socket.on("receive-file", (buffer, fileName, type) => {
@@ -114,21 +133,21 @@ function Chatroom() {
     <div>
       <Navbar room={room} />
 
-      <div id="container">
+      <div id="container" ref={dummy}>
         <div id="chatcontainer">
-          {messages.map((message) => (
-            <div key={message}>
+          {messages.map((message, key) => (
+            <div key={key}>
               <div id="messagecontainer">
                 <div id="picture">
                   <span>B</span>
                 </div>
                 <div id="message">
                   <div id="meta">
-                    <p id="username">/ Username not yet implemented /</p>
-                    <p id="time">/ Time not yet implemented /</p>
+                    <p id="username">Username</p>
+                    <p id="time">{message.time}</p>
                   </div>
                   <div id="messagebody">
-                    <p>{message}</p>
+                    <p>{message.userInput}</p>
                   </div>
                 </div>
               </div>
@@ -183,6 +202,7 @@ function Chatroom() {
               type="text"
               value={userInput}
               onChange={(event) => setUserInput(event.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="Message here..."
             />
             <label htmlFor="file-upload" id="custom-file-upload">

@@ -1,3 +1,30 @@
+#container {
+  height: 80vh;
+  display: block;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+#container::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+#container::-webkit-scrollbar-track {
+  background: var(--bg-black-color);
+}
+
+/* Handle */
+#container::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: var(--bg-blackvariant-color);
+}
+
+/* Handle on hover */
+#container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 #chatcontainer {
   display: flex;
   flex-direction: column;
@@ -11,6 +38,17 @@
   gap: 15px;
   padding: 0 20px;
   transition: 0.1s ease-in;
+  animation: slide-right 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+@keyframes slide-right {
+  0% {
+    -webkit-transform: translateX(-50px);
+    transform: translateX(-50px);
+  }
+  100% {
+    -webkit-transform: translateX(0px);
+    transform: translateX(0px);
+  }
 }
 #messagecontainer:hover {
   background: rgb(32, 32, 32);
@@ -44,6 +82,8 @@
 #messagecontainer #messagebody {
   padding: 5px 0px;
   font-size: var(--f-comp-body);
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 #messagecontainer #messagebody p {
   margin: 0;

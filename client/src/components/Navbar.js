@@ -1,20 +1,22 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 function Navbar({ room }) {
+  const [menuState, setMenuState] = useState(false);
+
+  const handleChange = () => {
+    setMenuState(!menuState);
+  };
+
   return (
     <div id="navbar">
-      {/* <div id="menu">
-        <ul id="menu">
-          <a href="#"><li>Home</li></a>
-          <a href="#"><li>About</li></a>
-          <a href="#"><li>Info</li></a>
-          <a href="#"><li>Contact</li></a>
-          <a href="https://erikterwan.com/" target="_blank">
+      <div id="menu" className={menuState ? "show" : "hide"}>
+        <ul>
+          <li>Hai</li>
         </ul>
-      </div> */}
+      </div>
       <div id="nav">
         <div id="menuToggle">
-          <input type="checkbox" />
+          <input type="checkbox" onChange={handleChange} />
           <span></span>
           <span></span>
           <span></span>

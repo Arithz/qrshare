@@ -11,7 +11,11 @@ function Navbar({ room }) {
     <div id="navbar">
       <div id="menu" className={menuState ? "show" : "hide"}>
         <ul>
-          <li>Hai</li>
+          <li>Room Members</li>
+          <li>Join Room</li>
+          <li>Create Room</li>
+          <li>To-Do List</li>
+          <li>Leave Room</li>
         </ul>
       </div>
       <div id="nav">

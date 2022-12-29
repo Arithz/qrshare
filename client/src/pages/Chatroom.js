@@ -112,7 +112,7 @@ function Chatroom() {
   };
 
   const qrcode = (roomID) => {
-    QRCode.toDataURL(window.location.href + "Chatroom/" + roomID, function (err, ur) {
+    QRCode.toDataURL(window.location.href, function (err, ur) {
       setURL(ur);
     });
   };
@@ -147,7 +147,7 @@ function Chatroom() {
   if (loading) return <LoadingComponent />;
   return (
     <div>
-      <Navbar room={room} progress={progress} />
+      <Navbar room={room} url={url} progress={progress} />
 
       <div id="container" ref={dummy}>
         <div id="chatcontainer">

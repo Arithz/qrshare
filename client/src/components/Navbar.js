@@ -3,6 +3,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { MdOutlineCenterFocusWeak } from "react-icons/md";
 import { FaTasks } from "react-icons/fa";
 import { IoMdExit } from "react-icons/io";
+import socket from "../sockethost";
 
 function Navbar({ room, url, progress }) {
   const [menuState, setMenuState] = useState(false);
@@ -10,6 +11,10 @@ function Navbar({ room, url, progress }) {
 
   const handleChange = () => {
     setMenuState(!menuState);
+  };
+
+  const disconnect = () => {
+    socket.emit("leave_room", room);
   };
 
   return (
@@ -35,12 +40,12 @@ function Navbar({ room, url, progress }) {
             </li>
           </div>
           <div>
-            <li>
-              <a href="/">
+            <a href="/" onClick={disconnect}>
+              <li>
                 <IoMdExit className="icons" />
                 Leave Room
-              </a>
-            </li>
+              </li>
+            </a>
           </div>
         </ul>
       </div>

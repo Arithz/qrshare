@@ -147,7 +147,7 @@ function Chatroom() {
   if (loading) return <LoadingComponent />;
   return (
     <div>
-      <Navbar room={room} url={url} progress={progress} />
+      <Navbar room={room} progress={progress} />
 
       <div id="container" ref={dummy}>
         <div id="chatcontainer">

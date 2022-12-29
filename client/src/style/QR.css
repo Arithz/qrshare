@@ -1,0 +1,27 @@
+#button-generate {
+  cursor: pointer;
+  background: #4e38a2;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  transition: 0.1s ease-in-out;
+}
+#button-generate:hover {
+  background: #3e2d81;
+}
+
+.input-roomcode {
+  display: flex;
+  justify-content: space-between;
+  background: #292929;
+  border: 1px solid #919191;
+  padding: 10px 10px;
+}
+
+#roomcode {
+  border: none;
+  outline: none;
+  background: none;
+  color: white;
+  letter-spacing: 2px;
+}

@@ -36,19 +36,23 @@ io.on("connection", (socket) => {
     if (checkRoom(room) === true) {
       socket.join(room);
       console.log(`User ${socket.id} joined room: ${room}`);
-      io.sockets.emit("redirect_chatroom", room);
+      io.to(room).emit("redirect_chatroom", room);
     } else {
       socket.emit("Error", "Room does not exists");
     }
   });
 
+  socket.on("leave_room", (room) => {
+    io.to(socket.id).socketsLeave(room);
+  });
+
   socket.on("check_room", (room) => {
     if (checkRoom(room) === true) {
       socket.join(room);
-      io.sockets.emit("redirect_chatroom", room);
-      socket.emit("start_room", true);
+      io.to(room).emit("redirect_chatroom", room);
+      io.to(socket.id).emit("start_room", true);
     } else {
-      socket.emit("start_room", false);
+      io.to(socket.id).emit("start_room", false);
     }
   });
 

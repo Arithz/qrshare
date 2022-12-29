@@ -22,6 +22,8 @@ const QR = ({ userState }) => {
   };
 
   const qrCodeEncoder = async (event) => {
+    if (event.target.innerText === "Join" && document.querySelector("#roomcode").value === "")
+      return;
     if (event.target.innerText === "Generate") {
       //generate a room
       let roomID = generateRoom();
@@ -29,7 +31,6 @@ const QR = ({ userState }) => {
       qrcode(roomID);
       setRoom(roomID);
       createRoom(roomID);
-      console.log(url);
     } else {
       //join an existed room
       let roomID = document.querySelector("#roomcode").value;
@@ -39,7 +40,14 @@ const QR = ({ userState }) => {
   };
 
   useEffect(() => {
+    if (userState !== "host") {
+      socket.emit("leave_room", room);
+    }
+  }, [userState]);
+
+  useEffect(() => {
     socket.on("Error", (error) => {
+      qrcode(room);
       alert(error);
     });
 
@@ -61,18 +69,20 @@ const QR = ({ userState }) => {
         {room === "" ? (
           <HiOutlineQrcode style={hiqrcode} />
         ) : (
-          <img width="300px" alt="qr" src={url} />
+          <img width="250px" alt="qr" src={url} />
         )}
       </div>
-      <div className="input__group">
+      <div className="input-roomcode">
         <input
           id="roomcode"
           type="text"
           defaultValue={userState === "host" ? room : ""}
-          placeholder="New Room Code"
+          placeholder={userState === "host" ? "Generate New Room Code" : "Enter Room Code"}
           readOnly={userState === "host" ? true : false}
         />
-        <button onClick={qrCodeEncoder}>{userState === "host" ? "Generate" : "Join"}</button>
+        <button id="button-generate" onClick={qrCodeEncoder}>
+          {userState === "host" ? "Generate" : "Join"}
+        </button>
       </div>
     </div>
   );

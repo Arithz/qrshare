@@ -1,3 +1,9 @@
+body {
+  background: var(--bg-black-color);
+  color: var(--t-white-color);
+  margin: 0;
+  padding: 0;
+}
 #container {
   height: 80vh;
   display: block;
@@ -115,7 +121,6 @@
 
 #inputcontainer {
   position: fixed;
-  z-index: 999;
   bottom: 0;
 
   width: 100%;
@@ -123,7 +128,7 @@
 
 #in {
   display: grid;
-  grid-template-columns: 0.9fr 0.1fr;
+  grid-template-columns: 1fr 50px;
   gap: 10px;
   padding: 25px 20px;
 }

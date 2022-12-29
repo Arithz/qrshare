@@ -1,7 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
+import { BsFillPersonFill } from "react-icons/bs";
+import { MdOutlineCenterFocusWeak } from "react-icons/md";
+import { FaTasks } from "react-icons/fa";
+import { IoMdExit } from "react-icons/io";
 
-function Navbar({ room }) {
+function Navbar({ room, url, progress }) {
   const [menuState, setMenuState] = useState(false);
+  const [colorBlock, setColorBlock] = useState("#c4b5ff");
 
   const handleChange = () => {
     setMenuState(!menuState);
@@ -11,11 +16,32 @@ function Navbar({ room }) {
     <div id="navbar">
       <div id="menu" className={menuState ? "show" : "hide"}>
         <ul>
-          <li>Room Members</li>
-          <li>Join Room</li>
-          <li>Create Room</li>
-          <li>To-Do List</li>
-          <li>Leave Room</li>
+          <div id="img">
+            <p>Scan QR to join the room</p>
+            <img alt="qr" src={url} />
+          </div>
+          <div>
+            <li>
+              <BsFillPersonFill className="icons" />
+              Change Username
+            </li>
+            <li>
+              <MdOutlineCenterFocusWeak className="icons" />
+              Join Room
+            </li>
+            <li>
+              <FaTasks className="icons" />
+              To-Do List
+            </li>
+          </div>
+          <div>
+            <li>
+              <a href="/">
+                <IoMdExit className="icons" />
+                Leave Room
+              </a>
+            </li>
+          </div>
         </ul>
       </div>
       <div id="nav">
@@ -29,10 +55,21 @@ function Navbar({ room }) {
         <div id="roomInfo">
           <p id="info">Messaging in Room</p>
           <p id="room"># {room === undefined ? "XXX-YYY-ZZZ" : room}</p>
+          {/* {colorBlock} */}
         </div>
 
         <div id="colorblock">
+          <div id={progress !== "" ? "progress" : ""}>{progress}</div>
           <span id="color"></span>
+          {/* <div id="colortooltip">
+            <span
+              className="coloroptions"
+              data-color="green"
+              onClick={() => {
+                setColorBlock("green");
+              }}
+            ></span>
+          </div> */}
         </div>
       </div>
     </div>

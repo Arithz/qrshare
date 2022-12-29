@@ -5,6 +5,7 @@ import { HiOutlineDownload } from "react-icons/hi";
 import socket from "../sockethost";
 import Navbar from "../components/Navbar";
 import LoadingComponent from "../components/Loading";
+import QRCode from "qrcode";
 import "../style/Navbar.css";
 import "../style/Chatroom.css";
 
@@ -15,10 +16,12 @@ function Chatroom() {
   const navigate = useNavigate();
 
   //states
+  const [progress, setProgress] = useState("");
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [fileDownloadLink, setFileDownloadLink] = useState({});
   const [loading, setLoading] = useState(true);
+  const [url, setURL] = useState("");
 
   /* ON LOAD REQUIREMENTS */
   /* --------------------------------------------------------------------------- */
@@ -58,7 +61,7 @@ function Chatroom() {
         {
           filename: file.name,
           total_buffer_size: buffer.length,
-          buffer_size: 1024 * 16,
+          buffer_size: 1024 * 32,
         },
         buffer
       );
@@ -75,12 +78,18 @@ function Chatroom() {
       let chunk = buffer.slice(0, metadata.buffer_size);
       buffer = buffer.slice(metadata.buffer_size, buffer.length);
       if (chunk.length !== 0) {
-        socket.emit("file-raw", {
-          room: room,
-          buffer: chunk,
-        });
-      } else {
-        console.log("Sent file successfully");
+        socket.emit(
+          "file-raw",
+          {
+            room: room,
+            buffer: chunk,
+          },
+          setProgress(
+            Math.trunc(
+              ((metadata.total_buffer_size - buffer.length) / metadata.total_buffer_size) * 100
+            ) + "%"
+          )
+        );
       }
     });
   }
@@ -102,6 +111,12 @@ function Chatroom() {
     scroll_to_bottom.scrollTop = scroll_to_bottom.scrollHeight + 80;
   };
 
+  const qrcode = (roomID) => {
+    QRCode.toDataURL(window.location.href + "Chatroom/" + roomID, function (err, ur) {
+      setURL(ur);
+    });
+  };
+
   /* SOCKET EMISSION */
   /* --------------------------------------------------------------------------- */
   // Set up useEffect hook to handle incoming messages
@@ -110,6 +125,7 @@ function Chatroom() {
       if (start === false || start === null) {
         navigate("/");
       } else {
+        qrcode(room);
         setLoading(false);
       }
     });
@@ -131,7 +147,7 @@ function Chatroom() {
   if (loading) return <LoadingComponent />;
   return (
     <div>
-      <Navbar room={room} />
+      <Navbar room={room} url={url} progress={progress} />
 
       <div id="container" ref={dummy}>
         <div id="chatcontainer">
@@ -168,7 +184,7 @@ function Chatroom() {
                   <div id="messagebody">
                     <img
                       alt="imageCanvas"
-                      width="250px"
+                      width="300px"
                       src={fileDownloadLink.link}
                       download={fileDownloadLink.fileName}
                     ></img>

@@ -8,6 +8,8 @@ import socket from "../sockethost";
 function Navbar({ room, progress }) {
   const [menuState, setMenuState] = useState(false);
   const [colorBlock, setColorBlock] = useState("#c4b5ff");
+  
+  const url = window.location.href;
 
   const handleChange = () => {
     setMenuState(!menuState);
@@ -23,7 +25,7 @@ function Navbar({ room, progress }) {
         <ul>
           <div id="img">
             <p>Scan QR to join the room</p>
-            <img alt="qr" src={window.location.href} />
+            <img alt="qr" src={url} />
           </div>
           <div>
             <li>

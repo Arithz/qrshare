@@ -5,7 +5,7 @@ import { FaTasks } from "react-icons/fa";
 import { IoMdExit } from "react-icons/io";
 import socket from "../sockethost";
 
-function Navbar({ room, url, progress }) {
+function Navbar({ room, progress }) {
   const [menuState, setMenuState] = useState(false);
   const [colorBlock, setColorBlock] = useState("#c4b5ff");
 
@@ -23,7 +23,7 @@ function Navbar({ room, url, progress }) {
         <ul>
           <div id="img">
             <p>Scan QR to join the room</p>
-            <img alt="qr" src={url} />
+            <img alt="qr" src={window.location.href} />
           </div>
           <div>
             <li>

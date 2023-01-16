@@ -195,6 +195,10 @@ body {
   animation: iconsend 1s infinite;
 }
 
+.link {
+  color: #199ee5;
+}
+
 @keyframes iconsend {
   0% {
     transform: rotate(45deg) translate(0, 0);

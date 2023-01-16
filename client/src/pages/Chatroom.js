@@ -163,7 +163,13 @@ function Chatroom() {
                     <p id="time">{message.time}</p>
                   </div>
                   <div id="messagebody">
-                    <p>{message.userInput}</p>
+                    {message.userInput.substr(0, 4) === "http" ? (
+                      <a className="link" href={message.userInput} target="_blank">
+                        {message.userInput}
+                      </a>
+                    ) : (
+                      <p>{message.userInput}</p>
+                    )}
                   </div>
                 </div>
               </div>

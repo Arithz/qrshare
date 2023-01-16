@@ -199,6 +199,15 @@ body {
   color: #199ee5;
 }
 
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+  cursor: pointer;
+}
+
 @keyframes iconsend {
   0% {
     transform: rotate(45deg) translate(0, 0);

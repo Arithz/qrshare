@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { HiPaperAirplane } from "react-icons/hi";
 import { HiOutlineDownload } from "react-icons/hi";
+import { BiCopy } from "react-icons/bi";
 import socket from "../sockethost";
 import Navbar from "../components/Navbar";
 import LoadingComponent from "../components/Loading";
@@ -111,6 +112,12 @@ function Chatroom() {
     scroll_to_bottom.scrollTop = scroll_to_bottom.scrollHeight + 80;
   };
 
+  const copyMessage = (e) => {
+    var copyText = e.target.getAttribute("data-text");
+    alert(copyText);
+    navigator.clipboard.writeText(copyText);
+  };
+
   const qrcode = (roomID) => {
     QRCode.toDataURL(window.location.href, function (err, ur) {
       setURL(ur);
@@ -164,12 +171,17 @@ function Chatroom() {
                   </div>
                   <div id="messagebody">
                     {message.userInput.substr(0, 4) === "http" ? (
-                      <a className="link" href={message.userInput} target="_blank">
+                      <a className="link float-left" href={message.userInput} target="_blank">
                         {message.userInput}
                       </a>
                     ) : (
-                      <p>{message.userInput}</p>
+                      <p className="float-left">{message.userInput}</p>
                     )}
+                    <BiCopy
+                      data-text={message.userInput}
+                      className="float-right"
+                      onClick={copyMessage}
+                    />
                   </div>
                 </div>
               </div>

@@ -114,7 +114,6 @@ function Chatroom() {
 
   const copyMessage = (e) => {
     var copyText = e.target.getAttribute("data-text");
-    alert(copyText);
     navigator.clipboard.writeText(copyText);
   };
 

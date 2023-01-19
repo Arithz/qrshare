@@ -31,6 +31,7 @@ const QR = ({ userState }) => {
       qrcode(roomID);
       setRoom(roomID);
       createRoom(roomID);
+      navigator.clipboard.writeText(roomID);
     } else {
       //join an existed room
       let roomID = document.querySelector("#roomcode").value;

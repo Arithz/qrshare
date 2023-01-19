@@ -177,9 +177,8 @@ function Chatroom() {
                       <p className="float-left">{message.userInput}</p>
                     )}
                     <BiCopy
-                      data-text={message.userInput}
                       className="float-right"
-                      onClick={copyMessage}
+                      onClick={copyMessage()}
                     />
                   </div>
                 </div>

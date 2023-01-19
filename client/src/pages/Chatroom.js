@@ -114,7 +114,6 @@ function Chatroom() {
 
   const copyMessage = (e) => {
     var copyText = e.target.getAttribute("data-text");
-    alert(copyText);
     navigator.clipboard.writeText(copyText);
   };
 
@@ -178,9 +177,8 @@ function Chatroom() {
                       <p className="float-left">{message.userInput}</p>
                     )}
                     <BiCopy
-                      data-text={message.userInput}
                       className="float-right"
-                      onClick={copyMessage}
+                      onClick={copyMessage()}
                     />
                   </div>
                 </div>

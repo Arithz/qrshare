@@ -132,11 +132,7 @@ function Chatroom() {
         navigate("/");
       } else {
         qrcode(room);
-        if (socket.readyState === 1) { // <-- This is important
-            socket.close();
-            setLoading(false);
-        }
-
+        setLoading(false)
       }
     });
 
